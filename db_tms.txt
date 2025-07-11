@@ -1,0 +1,40 @@
+ 
+drop database if exists tmsdb; 
+create database tmsdb;
+use tmsdb;
+
+mysql> show tables;
++-----------------+
+| Tables_in_tmsdb |
++-----------------+
+| tasks           |
+| users           |
++-----------------+
+2 rows in set (0.03 sec)
+
+
+mysql> desc tasks;
++-------------+-------------------------------------------+------+-----+---------+----------------+
+| Field       | Type                                      | Null | Key | Default | Extra          |
++-------------+-------------------------------------------+------+-----+---------+----------------+
+| taskId      | bigint                                    | NO   | PRI | NULL    | auto_increment |
+| description | varchar(255)                              | YES  |     | NULL    |                |
+| dueDate     | date                                      | YES  |     | NULL    |                |
+| priority    | enum('HIGH','LOW','MEDIUM')               | YES  |     | NULL    |                |
+| status      | enum('COMPLETED','IN_PROGRESS','PENDING') | YES  |     | NULL    |                |
+| title       | varchar(255)                              | NO   |     | NULL    |                |
++-------------+-------------------------------------------+------+-----+---------+----------------+
+6 rows in set (0.23 sec)
+
+
+mysql> desc users;
++----------+--------------+------+-----+---------+----------------+
+| Field    | Type         | Null | Key | Default | Extra          |
++----------+--------------+------+-----+---------+----------------+
+| uid      | bigint       | NO   | PRI | NULL    | auto_increment |
+| email    | varchar(255) | NO   | UNI | NULL    |                |
+| password | varchar(255) | NO   |     | NULL    |                |
+| role     | varchar(255) | NO   |     | NULL    |                |
+| username | varchar(255) | NO   |     | NULL    |                |
++----------+--------------+------+-----+---------+----------------+
+5 rows in set (0.02 sec)

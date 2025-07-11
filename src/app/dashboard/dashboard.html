@@ -1,0 +1,127 @@
+<div style="margin: 40px">
+  <h2 style="margin-bottom: 20px;">📝 Task Dashboard</h2>
+
+  <mat-form-field appearance="outline" style="width: 300px; margin-right: 16px;">
+  <mat-label>Search Tasks</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Search by any field">
+</mat-form-field>
+
+
+  <button mat-raised-button color="primary" (click)="logout()">Logout</button>
+<!-- Add Task button only for ADMIN -->
+<ng-container *ngIf="userRole === 'ADMIN'">
+  <button mat-raised-button color="accent" routerLink="/add-task">➕ Add Task</button>
+</ng-container>
+
+  <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" style="margin-top: 30px;">
+    <ng-container matColumnDef="title">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Title</mat-header-cell>
+      <mat-cell *matCellDef="let task"> {{ task.title }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+      <mat-cell *matCellDef="let task"> {{ task.description || '—' }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="dueDate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Due Date</mat-header-cell>
+      <mat-cell *matCellDef="let task"> {{ task.dueDate }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="priority">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Priority</mat-header-cell>
+      <mat-cell *matCellDef="let task"> {{ task.priority }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+      <mat-cell *matCellDef="let task">
+        <mat-select [(value)]="task.status" (selectionChange)="updateStatus(task.taskId, $event.value)">
+          <mat-option value="PENDING">Pending</mat-option>
+          <mat-option value="IN_PROGRESS">In Progress</mat-option>
+          <mat-option value="COMPLETED">Completed</mat-option>
+        </mat-select>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container *ngIf="userRole === 'ADMIN'" matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+      <mat-cell *matCellDef="let task">
+        <button mat-icon-button color="primary" [routerLink]="['/edit-task', task.taskId]">
+            <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteTask(task.taskId)">
+            <mat-icon>delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+</div>
+<!-- <div style="margin: 40px">
+  <h2>Task Dashboard</h2>
+
+  <mat-form-field appearance="outline" style="width: 300px; margin-bottom: 20px;">
+  <mat-label>Search Tasks</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Search by any field">
+</mat-form-field>
+
+  <button mat-raised-button color="primary" (click)="logout()">Logout</button>
+<button mat-raised-button color="accent" routerLink="/add-task">➕ Add Task</button>
+
+  <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" style="margin-top: 20px;">
+
+    <ng-container matColumnDef="title">
+      <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
+<mat-cell *matCellDef="let task"> {{ task.title || '—' }} </mat-cell>
+
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+<mat-cell *matCellDef="let task"> {{ task.description || '—' }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="dueDate">
+      <mat-header-cell *matHeaderCellDef> Due Date </mat-header-cell>
+<mat-cell *matCellDef="let task"> {{ task.dueDate || '—' }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="priority">
+      <mat-header-cell *matHeaderCellDef> Priority </mat-header-cell>
+<mat-cell *matCellDef="let task"> {{ task.priority || '—' }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+  <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+  <mat-cell *matCellDef="let task">
+    <mat-select [(value)]="task.status" (selectionChange)="updateStatus(task.taskId, $event.value)">
+<mat-option value="PENDING">PENDING</mat-option>
+      <mat-option value="IN_PROGRESS">IN_PROGRESS</mat-option>
+      <mat-option value="COMPLETED">COMPLETED</mat-option>       
+    </mat-select>
+  </mat-cell>
+</ng-container>
+
+<ng-container matColumnDef="actions">
+  <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+  <mat-cell *matCellDef="let task">
+    <ng-container *ngIf="userRole === 'ADMIN'">
+      <button mat-button color="accent" [routerLink]="['/edit-task', task.taskId]">✏️ Edit</button>
+       <button mat-button color="warn" (click)="deleteTask(task.taskId)">🗑️ Delete</button>
+    </ng-container>
+  </mat-cell>
+</ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+</div> -->

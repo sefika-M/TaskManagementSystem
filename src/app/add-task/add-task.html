@@ -1,0 +1,40 @@
+<mat-card class="task-card">
+  <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+    <h2>Create New Task</h2>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Description</mat-label>
+      <input matInput formControlName="description">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Due Date</mat-label>
+      <input matInput formControlName="dueDate" type="date">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Priority</mat-label>
+      <mat-select formControlName="priority">
+        <mat-option value="LOW">Low</mat-option>
+        <mat-option value="MEDIUM">Medium</mat-option>
+        <mat-option value="HIGH">High</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status">
+        <mat-option value="PENDING">Pending</mat-option>
+        <mat-option value="IN_PROGRESS">In Progress</mat-option>
+        <mat-option value="COMPLETED">Completed</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit">Add Task</button>
+  </form>
+</mat-card>

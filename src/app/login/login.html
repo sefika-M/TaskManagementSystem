@@ -1,0 +1,28 @@
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+  <mat-card style="width: 100%; max-width: 400px; padding: 20px;">
+    <mat-card-header>
+      <mat-card-title style="font-size: 24px; font-weight: 600;">Login</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+        <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Username</mat-label>
+<input matInput formControlName="username" required />
+
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput formControlName="password" type="password" required>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" class="full-width" type="submit">
+          Login
+        </button>
+      </form>
+      <div style="margin-top: 10px; text-align: center;">
+        <a routerLink="/register">Don't have an account? Register</a>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
